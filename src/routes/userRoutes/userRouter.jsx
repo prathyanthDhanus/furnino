@@ -5,6 +5,9 @@ import UserRegister from "../../pages/userPages/UserRegister";
 import ForgotPassword from "../../pages/userPages/ForgotPassword";
 import LandingPage from "../../pages/userPages/landingPage/LandingPage";
 import Shopping from "../../pages/userPages/Shopping";
+import ViewProduct from "../../pages/userPages/ViewProduct";
+
+
 
 
 export const userRouter = createBrowserRouter([
@@ -16,6 +19,7 @@ export const userRouter = createBrowserRouter([
             {path:"/user/register",element:<UserRegister/>},
             {path:"/user/forgot-password",element:<ForgotPassword/>},
             {path:"/user/shop",element:<Shopping/>},
+            {path:"/view/product",element:<ViewProduct/>},
         ]
     }
 ])

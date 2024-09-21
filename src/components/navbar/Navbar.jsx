@@ -8,28 +8,46 @@ import logo from "../../assets/images/Meubel House_Logos-05.png";
 import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
   return (
     <>
-      <div className="grid grid-cols-3">
+      <div className="grid grid-cols-3 fixed bg-white w-full z-10">
         <div className="flex items-center mx-10 gap-2">
           <img src={logo} alt="logo" className="w-[2.5rem]" />
 
           <h5 className="font-sansation font-bold text-3xl ">Furnino</h5>
         </div>
         <div>
-          <ul className="grid grid-cols-4 font-sansation font-bold flex items-center h-full">
-            <li className="hover:text-xl cursor-pointer hover:text-custom-yellow ">
+          <ul className="grid grid-cols-5 font-sansation font-bold flex items-center h-full">
+            <li
+              className="hover:text-xl cursor-pointer hover:text-custom-yellow "
+              onClick={() => navigate("/")}
+            >
               Home
             </li>
-            <li className="hover:text-xl cursor-pointer hover:text-custom-yellow ">
+            <li
+              className="hover:text-xl cursor-pointer hover:text-custom-yellow "
+              onClick={() => navigate("/user/shop")}
+            >
               Shop
             </li>
-            <li className="hover:text-xl cursor-pointer hover:text-custom-yellow ">
+            <li
+              className="hover:text-xl cursor-pointer hover:text-custom-yellow "
+              onClick={() => navigate("/")}
+            >
               About
             </li>
-            <li className="hover:text-xl cursor-pointer hover:text-custom-yellow ">
+            <li
+              className="hover:text-xl cursor-pointer hover:text-custom-yellow "
+              onClick={() => navigate("/")}
+            >
               Contact
+            </li>
+            <li
+              className="hover:text-xl cursor-pointer hover:text-custom-yellow "
+              onClick={() => navigate("/")}
+            >
+             Blog
             </li>
           </ul>
         </div>
@@ -54,7 +72,7 @@ const Navbar = () => {
             buttonText="Login"
             type="submit"
             className="w-full my-5 bg-custom-yellow text-custom-white hover:bg-custom-white hover:text-custom-yellow hover:border-custom-yellow text-sm"
-            onClick={()=>navigate("/user/login")}
+            onClick={() => navigate("/user/login")}
           />
         </div>
       </div>

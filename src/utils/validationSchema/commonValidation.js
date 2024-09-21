@@ -16,6 +16,9 @@ export const emailValidation = Yup.string()
 
 export const passwordValidation = Yup.string()
   .min(6, "Must be at least 6 characters")
+  .matches(/[a-z]/, "Must contain at least one lowercase letter")
+  .matches(/[A-Z]/, "Must contain at least one uppercase letter")
+  .matches(/[0-9]/, "Must contain at least one number")
   .required("Password is required");
 
 export const phoneValidation = Yup.string()
