@@ -33,19 +33,19 @@ const Navbar = () => {
             </li>
             <li
               className="hover:text-xl cursor-pointer hover:text-custom-yellow "
-              onClick={() => navigate("/")}
+              onClick={() => navigate("/about-us")}
             >
               About
             </li>
             <li
               className="hover:text-xl cursor-pointer hover:text-custom-yellow "
-              onClick={() => navigate("/")}
+              onClick={() => navigate("/contact-us")}
             >
               Contact
             </li>
             <li
               className="hover:text-xl cursor-pointer hover:text-custom-yellow "
-              onClick={() => navigate("/")}
+              onClick={() => navigate("/blog")}
             >
              Blog
             </li>
@@ -63,10 +63,12 @@ const Navbar = () => {
           <IoMdHeartEmpty
             className="cursor-pointer hover:text-custom-yellow "
             title="Wishlist"
+            onClick={()=>navigate('/wishlist')}
           />
           <BsCart3
             className="cursor-pointer hover:text-custom-yellow "
             title="Cart"
+            onClick={()=>navigate('/cart')}
           />
           <CustomButton
             buttonText="Login"

@@ -26,6 +26,7 @@ const LandingPage = () => {
           justifyContent: "center",
           alignItems: "center",
         }}
+        
       >
         <div className="grid sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 ">
           <div></div>
