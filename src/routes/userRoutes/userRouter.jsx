@@ -66,7 +66,7 @@ export const userRouter = createBrowserRouter([
         ),
       },
       {
-        path: "/view/product",
+        path: "/view/product/:productId",
         element: (
           <SuspenseWrapper>
             <ViewProduct />

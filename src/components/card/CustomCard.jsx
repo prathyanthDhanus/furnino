@@ -6,6 +6,7 @@ const CustomCard = ({
   discountPercentage,
   title,
   description,
+  info,
   price,
   discountedPrice,
 }) => {
@@ -34,6 +35,7 @@ const CustomCard = ({
         <div className="border-2 bg-gray-200 p-2 shadow-md">
           <h5 className="font-sansation font-bold ">{title}</h5>
           <p className="font-sansation font-regular text-gray-500 text-sm">{description}</p>
+          <p className="font-sansation font-regular text-gray-500 text-sm">{info}</p>
           <div className="flex items-center">
             <p className={`${discountPercentage ? "line-through font-sansation font-regular text-gray-500 text-sm" : ""} mr-2`}>
               {price}

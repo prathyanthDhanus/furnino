@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import headingImage from "../../assets/images/Rectangle 1.png";
 import testImage from "../../assets/images/kids-room-banner.jpg";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { FaStar } from "react-icons/fa";
 import { FaIndianRupeeSign } from "react-icons/fa6";
 import { FaTags } from "react-icons/fa";
@@ -13,14 +13,20 @@ import { TbHeartFilled } from "react-icons/tb";
 import { BiHeart } from "react-icons/bi";
 import QuantityComponent from "../../components/buttton/QuantityIncreaseButton";
 import HeaderBanner from "../../components/banner/HeaderBanner";
+import { useGetProductById } from "../../services/product";
 
 const ViewProduct = () => {
   const navigate = useNavigate();
+  const {productId}  =  useParams();
   const [quantity, setQuantity] = useState(0);
   const [wishlisted, setWishlisted] = useState(false);
   const handleQuantityChange = (newQuantity) => {
     console.log("Quantity changed to:", newQuantity);
   };
+
+  const {data:product ,isSuccess} = useGetProductById(productId);
+
+  console.log("mmmmmm",product)
 
   return (
     <>

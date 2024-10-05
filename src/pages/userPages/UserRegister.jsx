@@ -8,15 +8,22 @@ import {
 } from "../../utils/validationSchema/authSchema/authSchema";
 import chair from "../../assets/images/143117.jpg";
 import { useNavigate } from "react-router-dom";
+import { useRegisterUser } from "../../services/userAuth";
 
 const UserRegister = () => {
   const navigate = useNavigate();
+ const {mutate,isLoading} = useRegisterUser();
 
   const formik = useGlobalFormik({
     initialValues: registerInitialValues,
     validationSchema: registerSchema,
     onSubmit: (values) => {
-      console.log("Form Submitted", values);
+      const modifiedValues = {
+        ...values,
+        phoneNumber: `+91${values.phoneNumber}`,
+      };
+      mutate(modifiedValues);
+      console.log("oooo",modifiedValues)
     },
   });
 
@@ -68,6 +75,7 @@ const UserRegister = () => {
                 buttonText="REGISTER"
                 type="submit"
                 className="w-full my-5 bg-custom-yellow text-custom-white hover:bg-custom-white hover:text-custom-yellow hover:border-custom-yellow"
+                disabled={isLoading}
               />
             </form>
             <div className="text-center ">
