@@ -23,8 +23,19 @@ const Wishlist = () => {
         currentPage="Wishlist"
       />
 
-      <div className="container mx-auto p-5 m-10">
+      <div className="container mx-auto p-5 m-10 grid sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 gap-5">
 
+      <CartViewCard
+        imageSrc={testImage}
+        productTitle="Sample Product"
+        size="Medium"
+        price="₹1200"
+        stockStatus="Out of Stock"
+        quantity={1}
+        step={1}
+        onQuantityChange={handleQuantityChange}
+        onDelete={handleDelete}
+      />
       <CartViewCard
         imageSrc={testImage}
         productTitle="Sample Product"
