@@ -1,6 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import AdminLauout from "../../layout/adminLayout/AdminLauout";
-import AdminLogin from "../../pages/adminPages/adminLogin";
+import AdminLogin from "../../pages/adminPages/AdminLogin";
 
 
 export const adminRouter = createBrowserRouter([
