@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import forgotPasswordImage from "../../assets/images/Secure Login-pana.png";
+import forgotPasswordImage from "../../assets/images/Secure login-pana.png";
 import CustomInputField from "../../components/inputField/CustomInputField";
 import { useGlobalFormik } from "../../hooks/useFormik";
 import {
