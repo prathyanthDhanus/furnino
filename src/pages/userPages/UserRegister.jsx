@@ -62,7 +62,7 @@ const UserRegister = () => {
               />
               <CustomInputField
                 title="Enter Your Password"
-                type="text"
+                type="password"
                 placeholder="Enter Your Password"
                 name="password"
                 value={formik.values.password}

@@ -1,4 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import Axios from "../axios/axiosInstance";
 import { useNavigate } from "react-router-dom";
@@ -13,8 +14,8 @@ export const useDefaultLogin = () => {
   const navigate = useNavigate();
   return useMutation({
     mutationFn: async (values) => {
-      const response = await Axios.post(
-        "/api/user/login",
+      const response = await axios.post(
+        "http://localhost:3000/api/user/login",
         values
       );
       return response.data;
@@ -38,15 +39,15 @@ export const useRegisterUser = () => {
   const navigate = useNavigate();
   return useMutation({
     mutationFn: async (values) => {
-      const response = await Axios.post(
-        "/api/user/register",
+      const response = await axios.post(
+        "http://localhost:3000/api/user/register",
         values
       );
       return response.data;
     },
     onSuccess: (data) => {
       showSuccessToast(data?.message);
-      navigate("/login");
+      navigate("/user/login");
     },
     onError: (error) => {
       showErrorToast(
@@ -56,5 +57,23 @@ export const useRegisterUser = () => {
   });
 };
 
+// =========== fetch user profile details ============
 
-
+export const useFetchProfile = () => {
+  return useQuery({
+    queryKey: ["userProfile"],
+    queryFn: async () => {
+      const response = await Axios.get("/api/user/profile");
+      return response?.data?.data;
+    },
+    onSuccess: (data) => {
+      showSuccessToast(data?.message);
+    },
+    onError: (error) => {
+      showErrorToast(
+        error?.response?.data?.message ||
+          "Failed to fetch user profile data. Try again."
+      );
+    },
+  });
+};
