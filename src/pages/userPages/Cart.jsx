@@ -15,8 +15,7 @@ import {
 import { useFetchProfile } from "../../services/userAuth";
 import { showConfirmationToast } from "../../utils/toastNotification/toastNotifications";
 import emptyCartImage from "../../assets/images/1172061-middle.png";
-import updateProfileImage from "../../assets/images/Profile Interface-pana.png";
-
+import { usePayment } from "../../services/userAuth";
 const Cart = () => {
   const deliveryCharge = 150;
   const navigate = useNavigate();
@@ -24,12 +23,12 @@ const Cart = () => {
     data: cart,
     isSuccess: isCartSuccess,
     refetch: refetchProductFromTheCart,
-    isError:cartError
+    error: errorGetProductFromCart,
   } = useGetProductsFromtheCart();
   const { data: userProfile, isSuccess: userProfileSuccess } =
     useFetchProfile();
   console.log("cart data", cart);
-  console.log("userProfile", userProfile);
+  // console.log("userProfile", userProfile);
   const {
     data: cartTotal,
     isSuccess: isCartTotalSuccess,
@@ -37,7 +36,8 @@ const Cart = () => {
   } = useCartTotal();
   const { mutate: quantityUpdate } = useUpdateQuantityOfAProduct();
   const { mutate: deleteFromCart } = useDeleteProductFromCart();
-
+  const { mutate: userPayment } = usePayment();
+//  console.log(errorGetProductFromCart?.response?.status)
   const handleQuantityChange = (newQuantity, productId) => {
     quantityUpdate(
       { newQuantity, productId },
@@ -48,6 +48,7 @@ const Cart = () => {
       }
     );
   };
+
 
   const handleDeleteClick = (cartId) => {
     showConfirmationToast(
@@ -67,11 +68,11 @@ const Cart = () => {
     );
   };
 
-  useEffect(() => {
-    refetchProductFromTheCart(); // Ensure cart is always refetched after changes
-    refetchCartTotal()
-  }, [cartError]);
-
+  const handlePaymentCheckOut = () => {
+    const totalAmount = cartTotal ? cartTotal + deliveryCharge : 0;
+    userPayment({ totalAmount }); // Call the mutate function for payment
+  };
+  
   const totalAmount = cartTotal ? cartTotal + deliveryCharge : 0;
   return (
     <>
@@ -80,7 +81,7 @@ const Cart = () => {
         title="Cart"
         currentPage="Cart"
       />
-      {!cart || cart.length === 0 ? (
+      {!cart || errorGetProductFromCart?.response?.status === 404 ? (
         <div className="container mx-auto p-5 grid justify-items-center">
           <>
             <img
@@ -99,31 +100,10 @@ const Cart = () => {
             <div className="grid grid-cols-6 gap-8">
               {/* Left Side - 4 columns */}
               <div className="col-span-4">
-                {userProfile[0]?.address?.length === 0  ? (
-                  <div className="container mx-auto p-5 grid justify-items-center">
-                    <>
-                      <img
-                        src={updateProfileImage}
-                        alt="empty cart"
-                        className="object-cover w-[15rem]"
-                      />
-                      <span className="font-sansation font-bold text-xl ">
-                        Oops! Looks like your profile isn't fully updated yet
-                        😔.
-                      </span>
-                      <span className="font-sansation font-bold text-xl ">
-                      Let's complete it and get you going 🙂!
-                      </span>
-                    </>
-                  </div>
-                ) : (
-                  <>
-                    {userProfile?.map((item) =>
-                      item?.address?.map((user) => (
-                        <AddressCard key={user._id} addressData={user} />
-                      ))
-                    )}
-                  </>
+                {userProfile?.map((item) =>
+                  item?.address?.map((user) => (
+                    <AddressCard key={user._id} addressData={user} />
+                  ))
                 )}
 
                 {cart?.map((cartData) => (
@@ -144,6 +124,7 @@ const Cart = () => {
                       }
                       onDelete={() => handleDeleteClick(cartData?._id)}
                       hideCheck={false}
+                      onClick={()=>navigate(`/view/product/${ cartData?.productId?._id}`)}
                     />
                   </div>
                 ))}
@@ -174,6 +155,7 @@ const Cart = () => {
                   buttonText="Proceed TO Checkout"
                   type="submit"
                   className="w-full sm:text-sm md:text:sm lg:text-base  bg-blue-400 text-custom-white hover:bg-custom-white hover:text-blue-400 hover:border-blue-400 my-5"
+                  onClick={handlePaymentCheckOut}
                 />
               </div>
             </div>

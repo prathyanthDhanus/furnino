@@ -77,3 +77,41 @@ export const useFetchProfile = () => {
     },
   });
 };
+
+
+// =========== user logout function ============
+
+export const useHandleLogout = () => {
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    // Remove the token from localStorage
+    localStorage.removeItem("token");
+   
+      showSuccessToast("User successfully logged out");
+
+    navigate("/");
+  };
+  return handleLogout;
+};
+
+// ============== user payment  ===============
+
+export const usePayment = () => {
+  return useMutation({
+    mutationFn: async ({ totalAmount }) => {
+      const response = await Axios.post("/api/user/payment", {
+        totalAmount:totalAmount,
+      });
+      return response?.data;
+    },
+    onSuccess: (data) => {
+      showSuccessToast(data?.message);
+    },
+    onError: (error) => {
+      showErrorToast(
+        error?.response?.data?.message ||
+          "Payment failed.Please try again"
+      );
+    },
+  });
+};

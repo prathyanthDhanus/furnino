@@ -4,7 +4,7 @@ import {
 } from "../utils/toastNotification/toastNotifications";
 import { useQuery } from "@tanstack/react-query";
 import Axios from "../axios/axiosInstance";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation,useQueryClient } from "@tanstack/react-query";
 
 // ============== get all products in category wise ===============
 
@@ -147,5 +147,66 @@ export const useAddToCart = () => {
   });
 };
 
+// ============== add to wishlist ===============
 
+export const useAddToWishList = () => {
+  return useMutation({
+    mutationFn: async ({ productId }) => {
+      const response = await Axios.post("/api/wishlist/user", {
+        productId: productId,
+      });
+      return response?.data;
+    },
+    onSuccess: (data) => {
+      showSuccessToast(data?.message);
+    },
+    onError: (error) => {
+      showErrorToast(
+        error?.response?.data?.message ||
+          "Failed to upload to wishlist. Try again."
+      );
+    },
+  });
+};
 
+// ============== fetch the wishlist of a user ===============
+
+export const useFetchWishlistOfAUser = () => {
+  return useQuery({
+    queryKey: ["userWishlist"],
+    queryFn: async () => {
+      const response = await Axios.get("/api/wishlist/user");
+      return response?.data;
+    },
+    onSuccess: (data) => {
+      showSuccessToast(data?.message);
+    },
+    onError: (error) => {
+      showErrorToast(
+        error?.response?.data?.message || "Failed to fetch data. Try again."
+      );
+    },
+  });
+};
+
+// ============== delete from wishlist ===============
+
+export const useDeleteFromWishlist = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (wishlistId) => {
+      const response = await Axios.delete(`/api/wishlist/user/${wishlistId}`);
+      return response?.data;
+    },
+    onSuccess: (data) => {
+      showSuccessToast(data?.message);
+      queryClient.invalidateQueries('userWishlist');
+    },
+    onError: (error) => {
+      showErrorToast(
+        error?.response?.data?.message ||
+          "Failed to delete from wishlist. Try again."
+      );
+    },
+  });
+};

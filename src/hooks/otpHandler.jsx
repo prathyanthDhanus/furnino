@@ -28,6 +28,7 @@ export const useOtpHandler = (formik) => {
     );
 
     const otpErrorMessage = hasOtpError ? "Please fill all OTP fields" : "";
+    console.log("hasOtpError",hasOtpError)
     return { hasOtpError, otpErrorMessage };
   };
 

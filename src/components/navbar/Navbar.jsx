@@ -6,9 +6,14 @@ import { BsCart3 } from "react-icons/bs";
 import CustomButton from "../buttton/CustomButton";
 import logo from "../../assets/images/Meubel House_Logos-05.png";
 import { useNavigate } from "react-router-dom";
+import { useHandleLogout } from "../../services/userAuth";
+
 
 const Navbar = () => {
+  const token = localStorage?.getItem("token");
+  const handleLogout = useHandleLogout(); 
   const navigate = useNavigate();
+  
   return (
     <>
       <div className="grid grid-cols-3 fixed bg-white w-full z-10">
@@ -47,7 +52,7 @@ const Navbar = () => {
               className="hover:text-xl cursor-pointer hover:text-custom-yellow "
               onClick={() => navigate("/blog")}
             >
-             Blog
+              Blog
             </li>
           </ul>
         </div>
@@ -63,19 +68,29 @@ const Navbar = () => {
           <IoMdHeartEmpty
             className="cursor-pointer hover:text-custom-yellow "
             title="Wishlist"
-            onClick={()=>navigate('/wishlist')}
+            onClick={() => navigate("/wishlist")}
           />
           <BsCart3
             className="cursor-pointer hover:text-custom-yellow "
             title="Cart"
-            onClick={()=>navigate('/cart')}
+            onClick={() => navigate("/cart")}
           />
-          <CustomButton
-            buttonText="Login"
-            type="submit"
-            className="w-full my-5 bg-custom-yellow text-custom-white hover:bg-custom-white hover:text-custom-yellow hover:border-custom-yellow text-sm"
-            onClick={() => navigate("/user/login")}
-          />
+
+          {token ? (
+            <CustomButton
+              buttonText="Logout"
+              type="submit"
+              className="w-full my-5 bg-custom-yellow text-custom-white hover:bg-custom-white hover:text-custom-yellow hover:border-custom-yellow text-sm"
+              onClick={handleLogout}
+            />
+          ) : (
+            <CustomButton
+              buttonText="Login"
+              type="submit"
+              className="w-full my-5 bg-custom-yellow text-custom-white hover:bg-custom-white hover:text-custom-yellow hover:border-custom-yellow text-sm"
+              onClick={()=>navigate("/user/login")}
+            />
+          )}
         </div>
       </div>
     </>

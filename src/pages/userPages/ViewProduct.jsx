@@ -12,7 +12,13 @@ import { TbHeartFilled } from "react-icons/tb";
 import { BiHeart } from "react-icons/bi";
 import QuantityComponent from "../../components/buttton/QuantityIncreaseButton";
 import HeaderBanner from "../../components/banner/HeaderBanner";
-import { useGetProductById, useAddToCart } from "../../services/product";
+import {
+  useGetProductById,
+  useAddToCart,
+  useAddToWishList,
+  useFetchWishlistOfAUser,
+  useDeleteFromWishlist,
+} from "../../services/product";
 
 const ViewProduct = () => {
   const navigate = useNavigate();
@@ -24,12 +30,40 @@ const ViewProduct = () => {
 
   const { data: product, isSuccess } = useGetProductById(productId);
   const { mutate } = useAddToCart();
+  const { mutate: wishlist } = useAddToWishList();
+  const { data: userWishlist, refetch: refetchUserWishlist } =
+    useFetchWishlistOfAUser();
 
-  console.log("selectedCapacity", selectedCapacity);
-  console.log("mmmmmm", product);
+  const { mutate: deleteFromCart } = useDeleteFromWishlist();
+
+  const isWishlisted = userWishlist?.data?.some(
+    (item) => item?.productId?._id === productId
+  );
 
   const handleQuantityChange = (newQuantity) => {
     setQuantity(newQuantity);
+  };
+
+  const handleWishList = () => {
+    wishlist(
+      {
+        productId,
+      },
+      {
+        onSuccess: () => {
+          refetchUserWishlist(); // Refetch to get updated wishlist
+        },
+      }
+    );
+  };
+  
+  const deleteFromWishlist = () => {
+    const wishlistProduct = userWishlist?.data?.filter(
+      (wishlistData) => wishlistData?.productId?._id === productId
+    );
+    const wishlistId = wishlistProduct[0]?._id;
+    deleteFromCart(wishlistId);
+    refetchUserWishlist();
   };
 
   const {
@@ -52,21 +86,24 @@ const ViewProduct = () => {
   // add to cart
   const handleAddToCart = () => {
     if (!selectedCapacity) {
-      setErrorMessage("Please select a seating capacity."); // Set error message if no capacity is selected
+      setErrorMessage("Please select a seating capacity.");
       return;
     }
-    // Clear the error if capacity is selected and proceed with add to cart
     setErrorMessage("");
     mutate({
       productId,
       quantity,
       selectedCapacity,
     });
-  }
+  };
 
   const handleCapacitySelect = (seat) => {
     setSelectedCapacity(seat.trim()); // Update the selected seating capacity
     setErrorMessage(""); // Hide the error message after selection
+  };
+
+  const handleNavProductCompare = () => {
+    navigate(`/product/compare/${productId}`);
   };
 
   return (
@@ -90,7 +127,7 @@ const ViewProduct = () => {
             ))}
           </div>
         </div>
-        <div className="col-span-4 mt-4">
+        <div className="col-span-4 ">
           {testImage ? (
             <img
               src={testImage}
@@ -111,7 +148,17 @@ const ViewProduct = () => {
           <div>
             <div className="flex items-center ">
               <h5 className="font-sansation font-bold text-2xl">{name}</h5>
-              <TbHeartFilled className="text-red-500 text-2xl ml-5" />
+              {isWishlisted ? (
+                <TbHeartFilled
+                  className="text-red-500 text-2xl ml-5 cursor-pointer"
+                  onClick={deleteFromWishlist}
+                />
+              ) : (
+                <BiHeart
+                  className="text-red-500 text-2xl ml-5 cursor-pointer"
+                  onClick={handleWishList}
+                />
+              )}
             </div>
             <div className="flex font-sansation font-regular gap-4 my-2 ">
               <div className="bg-green-600 w-[3.5rem] flex justify-center items-center text-custom-white  gap-1 rounded-md text-xs font-sansation font-bold ">
@@ -122,7 +169,7 @@ const ViewProduct = () => {
               <div className="flex items-center justify-end w-1/2">
                 <p
                   className="text-xs bg-custom-yellow px-2 rounded-md text-custom-white p-1 shadow-xl cursor-pointer"
-                  onClick={() => navigate("/product/compare")}
+                  onClick={handleNavProductCompare}
                 >
                   Compare
                 </p>

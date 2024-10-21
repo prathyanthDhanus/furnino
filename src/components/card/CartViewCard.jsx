@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { MdOutlineDeleteOutline } from "react-icons/md";
 import QuantityComponent from "../buttton/QuantityIncreaseButton";
@@ -13,7 +12,9 @@ const CartViewCard = ({
   step,
   onQuantityChange,
   onDelete,
-  hideCheck, // Add a prop to control hiding the checkbox
+  onClick,
+  hideCheck,  // Add a prop to control hiding the checkbox
+  hideSize,   // Add a prop to control hiding the size
 }) => {
   const [isChecked, setIsChecked] = useState(false); // State to track checkbox
 
@@ -22,7 +23,7 @@ const CartViewCard = ({
   };
 
   return (
-    <div className="grid grid-cols-8 gap-4 items-center border my-3 rounded-xl shadow-xl p-4">
+    <div className="grid grid-cols-8 gap-4 items-center border my-3 rounded-xl shadow-xl p-4" >
       {/* Conditionally render Checkbox */}
       {!hideCheck && (
         <div className="col-span-1 text-xl hover:shadow-xl bg-gray-100 w-10 h-10 flex items-center justify-center rounded-full">
@@ -36,14 +37,17 @@ const CartViewCard = ({
       )}
 
       {/* Image */}
-      <div className="col-span-1">
+      <div className="col-span-1 " >
         <img src={imageSrc} alt="Product" className="object-cover" />
       </div>
 
       {/* Text/Content Section */}
-      <div className="col-span-5 p-4 font-sansation font-regular">
+      <div className="col-span-5 p-4 font-sansation font-regular" onClick={onClick}>
         <p className="font-sansation font-bold">{productTitle}</p>
-        <p className="text-sm"> size: {size}</p>
+        
+        {/* Conditionally render Size */}
+        {!hideSize && <p className="text-sm "> size: {size}</p>}
+
         <p className="font-sansation font-bold text-xl">{price}</p>
         <p
           className={`text-2xl font-sansation font-bold ${

@@ -19,6 +19,7 @@ const Cart = lazy(()=>import("../../pages/userPages/Cart"));
 const CheckOut = lazy(()=>import("../../pages/userPages/CheckOut"));
 const ContactUs = lazy(()=>import("../../pages/userPages/ContactUs"));
 const Wishlist = lazy(()=>import("../../pages/userPages/Wishlist"));
+const CategoryShow = lazy(()=>import("../../pages/userPages/CategoryShowPage"));
 
 
 export const userRouter = createBrowserRouter([
@@ -58,10 +59,18 @@ export const userRouter = createBrowserRouter([
         ),
       },
       {
-        path: "/user/shop",
+        path: "/user/shop/:categoryId",
         element: (
           <SuspenseWrapper>
             <Shopping />
+          </SuspenseWrapper>
+        ),
+      },
+      {
+        path: "/user/shop/",
+        element: (
+          <SuspenseWrapper>
+            <CategoryShow />
           </SuspenseWrapper>
         ),
       },
@@ -74,7 +83,7 @@ export const userRouter = createBrowserRouter([
         ),
       },
       {
-        path: "/product/compare",
+        path: "/product/compare/:productId",
         element: (
           <SuspenseWrapper>
             <ProductComparison />
