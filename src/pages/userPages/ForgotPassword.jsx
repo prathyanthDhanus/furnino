@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import forgotPasswordImage from "../../assets/images/Secure login-pana.png";
 import CustomInputField from "../../components/inputField/CustomInputField";
 import { useGlobalFormik } from "../../hooks/useFormik";
@@ -10,13 +10,11 @@ import {
 } from "../../utils/validationSchema/authSchema/authSchema";
 import CustomButton from "../../components/buttton/CustomButton";
 import { useNavigate } from "react-router-dom";
-import OTP_InputField from "../../components/inputField/OTP_InputField";
-import { useOtpHandler } from "../../hooks/otpHandler";
+import OtpInput from "react-otp-input";
 
 const ForgotPassword = () => {
   const [verifiedMobile, setVerifiedMobile] = useState(true);
   const navigate = useNavigate();
-
   const formik = useGlobalFormik({
     initialValues: forgotPasswordInitialValues,
     validationSchema: forgotPasswordSchema,
@@ -32,9 +30,6 @@ const ForgotPassword = () => {
       console.log("Form Submitted", values);
     },
   });
-
-  const { otpRefs, handleOtpChange, checkOtpErrors } = useOtpHandler(formik2);
-  const { hasOtpError, otpErrorMessage } = checkOtpErrors();
 
   return (
     <>
@@ -73,37 +68,45 @@ const ForgotPassword = () => {
                 </form>
               </>
             )}
-
             {verifiedMobile && (
               <>
                 <form onSubmit={formik2.handleSubmit}>
-                  <p className="mt-3 bold-sansation">Enter OTP</p>
-                  <div className="grid grid-cols-5 gap-3">
-                    {[...Array(5)].map((_, index) => (
-                      <OTP_InputField
-                        key={index}
-                        name={`otp${index + 1}`}
-                        value={formik2.values[`otp${index + 1}`]}
-                        onChange={(event) => handleOtpChange(index, event)}
-                        onBlur={formik2.handleBlur}
-                        ref={(el) => (otpRefs.current[index] = el)}
-                      />
-                    ))}
+                  <p className="mt-3 font-sansation font-bold">Enter OTP</p>
+                  <div className="">
+                    <OtpInput
+                      value={formik2?.values?.otp}
+                      onChange={(otp) => formik2.setFieldValue("otp", otp)}
+                      numInputs={6}
+                      isInputNum
+                      shouldAutoFocus
+                      renderSeparator={<span className="px-[0.4rem] md:px-[2.5rem] lg:px-[1.2rem]"></span>}
+                      renderInput={(props) => (
+                        <input
+                          {...props}
+                          className={`w-12 h-12 text-center border-2 ${
+                            formik2.errors.otp && formik2.touched.otp
+                              ? "border-red-500"
+                              : "border-gray-300 focus:border-yellow-500"
+                          } focus:outline-none rounded-lg`}
+                          style={{ padding: "0" }}
+                        />
+                      )}
+                      containerStyle="mt-4"
+                    />
+                    {formik2.errors.otp && formik2.touched.otp && (
+                      <div className="text-red-500 text-sm mt-2">
+                        {formik2.errors.otp}
+                      </div>
+                    )}
                   </div>
-                  {hasOtpError && (
-                    <div className="text-red-500 mt-3 text-sm">
-                      {otpErrorMessage && <div>{otpErrorMessage}</div>}
-                    </div>
-                  )}
+                  <CustomButton
+                    buttonText="Submit"
+                    type="submit"
+                    className="w-full my-4 bg-custom-yellow text-custom-white hover:bg-custom-white hover:text-custom-yellow hover:border-custom-yellow"
+                  />
                 </form>
-                <CustomButton
-                  buttonText="Submit"
-                  type="submit"
-                  className="w-full my-5 bg-custom-yellow text-custom-white hover:bg-custom-white hover:text-custom-yellow hover:border-custom-yellow"
-                />
               </>
             )}
-
             <div className="text-center ">
               <p className="font-sansation font-regular mt-3">
                 Remembered your password?{" "}

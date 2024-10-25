@@ -40,19 +40,13 @@ export const forgotPasswordSchema = Yup.object().shape({
 
 
 export const OTPInitialValues = {
-    otp1: "",
-    otp2: "",
-    otp3: "",
-    otp4: "",
-    otp5: "",
+    otp: "",
+    
 };
 
 export const OTPSchema = Yup.object().shape({
-    otp1: otpValidation,
-    otp2: otpValidation,
-    otp3: otpValidation,
-    otp4: otpValidation,
-    otp5: otpValidation,
+    otp: otpValidation,
+
   
 });
 //--------------------- forgot password section end --------------------

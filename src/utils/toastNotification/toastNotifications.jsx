@@ -29,7 +29,7 @@ export const showErrorToast = (message, duration = 4000) => {
 
 
 // Confirmation Toast
-export const showConfirmationToast = (onConfirm, message, duration = 4000) => {
+export const showConfirmationToast = (onConfirm, message,actionLabel, duration = 4000) => {
   toast.custom((t) => (
     <div
       className={`${
@@ -54,7 +54,7 @@ export const showConfirmationToast = (onConfirm, message, duration = 4000) => {
           }}
           className="text-red-500  p-1 rounded-md bg-white"
         >
-          Delete
+         {actionLabel}
         </button>
       </div>
     </div>

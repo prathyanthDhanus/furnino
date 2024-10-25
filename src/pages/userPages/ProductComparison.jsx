@@ -32,7 +32,8 @@ const ProductComparison = () => {
   } = product || {};
 
   // Fetch related products based on the category of the first product
-  const { data: products, isSuccess: isProductsSuccess } = useGetProductsCategoryWise(categoryId);
+  const { data: products, isSuccess: isProductsSuccess } =
+    useGetProductsCategoryWise(categoryId);
 
   // Fetch second product data when secondProductId is set
   useEffect(() => {
@@ -40,10 +41,12 @@ const ProductComparison = () => {
       // Fetch the second product using the same hook but with the second product's ID
       const fetchSecondProduct = async () => {
         try {
-          const response = await Axios.get(`/api/product/user/${secondProductId}`);
-         if(response?.status===200){
-          setSecondProductData(response.data?.data);
-         }
+          const response = await Axios.get(
+            `/api/product/user/${secondProductId}`
+          );
+          if (response?.status === 200) {
+            setSecondProductData(response.data?.data);
+          }
           setSecondProductData(secondProduct?.data); // Store the second product's data in the state
         } catch (error) {
           console.error("Failed to fetch second product", error);
@@ -55,8 +58,13 @@ const ProductComparison = () => {
 
   // Handle selecting a second product for comparison
   const selectSecondComparingProduct = (productId) => {
-    setSecondProductId(productId); 
+    setSecondProductId(productId);
   };
+
+
+  //remove same oroduct from compare product selection
+  const filetrProduct = products?.filter((item)=>item?._id!=productId);
+
 
   return (
     <>
@@ -91,7 +99,9 @@ const ProductComparison = () => {
             <p className="text-sm mb-2">
               <strong>Discount:</strong> {discountPercentage}%
             </p>
-            <p className="text-lg font-semibold text-green-600 mb-2">₹{price}</p>
+            <p className="text-lg font-semibold text-green-600 mb-2">
+              ₹{price}
+            </p>
             <p className="text-sm mb-2">{additionalInfo}</p>
             <p className="text-sm mb-2">{info}</p>
             <p className="text-sm mb-2">
@@ -125,47 +135,79 @@ const ProductComparison = () => {
               </div>
               <p className="text-sm mb-2">{secondProductData?.description}</p>
               <p className="text-sm mb-2">
-                <strong>Discount:</strong> {secondProductData?.discountPercentage}%
+                <strong>Discount:</strong>{" "}
+                {secondProductData?.discountPercentage}%
               </p>
               <p className="text-lg font-semibold text-green-600 mb-2">
                 ₹{secondProductData?.price}
               </p>
-              <p className="text-sm mb-2">{secondProductData?.additionalInfo}</p>
+              <p className="text-sm mb-2">
+                {secondProductData?.additionalInfo}
+              </p>
               <p className="text-sm mb-2">{secondProductData?.info}</p>
               <p className="text-sm mb-2">
                 <strong>Stock:</strong> {secondProductData?.stock}
               </p>
               <p className="text-sm mb-2">
-                <strong>Seating Capacity:</strong> {secondProductData?.seatingCapacity}
+                <strong>Seating Capacity:</strong>{" "}
+                {secondProductData?.seatingCapacity}
               </p>
             </div>
           ) : (
-            <div className="text-gray-600 text-center h-[50rem] flex items-center justify-center">
-              <p>Select a product to compare</p>
+            <div className="text-gray-600  ">
+              <p className="my-2 font-sansation font-bold">
+                Select a product to compare
+              </p>
+              <div className="grid grid-cols-2 overflow-y-auto max-h-[46rem] gap-5 ">
+                {filetrProduct?.map((product) => {
+                  const trimmedDescription =
+                    product?.description.split(".")[0] + ".";
+                  const trimmedInfo = product?.info.split(".")[0] + ".";
+
+                  return (
+                    <CustomCard
+                      key={product?._id}
+                      bgimage={product?.images[0]}
+                      discountPercentage={product?.discountPercentage}
+                      title={product?.name}
+                      description={trimmedDescription}
+                      info={trimmedInfo}
+                      price={product?.price}
+                      discountedPrice={product?.discountPrice}
+                      onClick={() => selectSecondComparingProduct(product?._id)}
+                    />
+                  );
+                })}
+              </div>
             </div>
           )}
 
           {/* Related Products section */}
-        
         </div>
         <div className="my-10">
-            <h3 className="text-xl font-bold mb-4 ">Related Products</h3>
-            <div className="grid lg:grid-cols-4 gap-6">
-              {products?.map((product) => (
+          <h3 className="text-xl font-bold mb-4 ">Related Products</h3>
+          <div className="grid lg:grid-cols-4 gap-6">
+            {products?.map((product) => {
+              const trimmedDescription =
+                product?.description.split(".")[0] + ".";
+              const trimmedInfo = product?.info.split(".")[0] + ".";
+
+              return (
                 <CustomCard
                   key={product?._id}
                   bgimage={product?.images[0]}
                   discountPercentage={product?.discountPercentage}
                   title={product?.name}
-                  description={product?.description}
-                  info={product?.info}
+                  description={trimmedDescription}
+                  info={trimmedInfo}
                   price={product?.price}
                   discountedPrice={product?.discountPrice}
-                  onClick={() => selectSecondComparingProduct(product?._id)}
+                  onClick={() => navigate(`/view/product/${product?._id}`)}
                 />
-              ))}
-            </div>
+              );
+            })}
           </div>
+        </div>
       </div>
     </>
   );

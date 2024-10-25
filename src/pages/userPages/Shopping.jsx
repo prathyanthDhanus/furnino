@@ -6,7 +6,7 @@ import HeaderBanner from "../../components/banner/HeaderBanner";
 import { useGetProductsCategoryWise } from "../../services/product";
 
 const Shopping = () => {
- const {categoryId} = useParams();
+  const { categoryId } = useParams();
   const { data: products, isSuccess: isProductsSuccess } =
     useGetProductsCategoryWise(categoryId);
 
@@ -22,19 +22,25 @@ const Shopping = () => {
       {isProductsSuccess && (
         <>
           <div className=" container grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-4 justify-items-center m-10 mx-auto">
-            {products?.map((product) => (
-              <CustomCard
-                key={product?._id}
-                bgimage={product?.images[0]}
-                discountPercentage={product?.discountPercentage}
-                title={product?.name}
-                description={product?.description}
-                info={product?.info}
-                price={product?.price}
-                discountedPrice={product?.discountPrice}
-                onClick={() => navigate(`/view/product/${product._id}`)}
-              />
-            ))}
+            {products?.map((product) => {
+              const trimmedDescription =
+                product?.description.split(".")[0] + ".";
+              const trimmedInfo = product?.info.split(".")[0] + ".";
+
+              return (
+                <CustomCard
+                  key={product?._id}
+                  bgimage={product?.images[0]}
+                  discountPercentage={product?.discountPercentage}
+                  title={product?.name}
+                  description={trimmedDescription}
+                  info={trimmedInfo}
+                  price={product?.price}
+                  discountedPrice={product?.discountPrice}
+                  onClick={() => navigate(`/view/product/${product?._id}`)}
+                />
+              );
+            })}
           </div>
         </>
       )}

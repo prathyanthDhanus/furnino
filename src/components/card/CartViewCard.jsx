@@ -18,12 +18,18 @@ const CartViewCard = ({
 }) => {
   const [isChecked, setIsChecked] = useState(false); // State to track checkbox
 
-  const handleCheckboxChange = () => {
+  const handleCheckboxChange = (e) => {
+    e.stopPropagation(); // Stop event propagation
     setIsChecked((prev) => !prev); // Toggle checkbox state
   };
 
+  const handleDeleteClick = (e) => {
+    e.stopPropagation(); // Stop event propagation
+    onDelete(); // Call delete handler
+  };
+
   return (
-    <div className="grid grid-cols-8 gap-4 items-center border my-3 rounded-xl shadow-xl p-4" >
+    <div className="grid grid-cols-8 gap-4 items-center border my-3 rounded-xl shadow-xl p-4  " onClick={onClick}>
       {/* Conditionally render Checkbox */}
       {!hideCheck && (
         <div className="col-span-1 text-xl hover:shadow-xl bg-gray-100 w-10 h-10 flex items-center justify-center rounded-full">
@@ -42,8 +48,8 @@ const CartViewCard = ({
       </div>
 
       {/* Text/Content Section */}
-      <div className="col-span-5 p-4 font-sansation font-regular" onClick={onClick}>
-        <p className="font-sansation font-bold">{productTitle}</p>
+      <div className="col-span-5 p-4 font-sansation font-regular" >
+        <p className="font-sansation font-bold " >{productTitle}</p>
         
         {/* Conditionally render Size */}
         {!hideSize && <p className="text-sm "> size: {size}</p>}
@@ -57,18 +63,20 @@ const CartViewCard = ({
           {stockStatus}
         </p>
         {/* Quantity Component */}
-        <QuantityComponent
-          initialQuantity={quantity}
-          step={step}
-          onChange={onQuantityChange}
-          className="w-1/2"
-        />
+        <div onClick={(e) => e.stopPropagation() /* Prevent propagation for quantity changes */}>
+          <QuantityComponent
+            initialQuantity={quantity}
+            step={step}
+            onChange={onQuantityChange}
+            className="w-1/2"
+          />
+        </div>
       </div>
 
       {/* Delete Icon */}
       <div
         className="col-span-1 text-xl cursor-pointer text-red-400 flex items-center justify-center"
-        onClick={onDelete}
+        onClick={handleDeleteClick} // Prevent navigation on delete
       >
         <MdOutlineDeleteOutline />
       </div>

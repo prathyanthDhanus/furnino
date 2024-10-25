@@ -7,11 +7,15 @@ import CustomButton from "../buttton/CustomButton";
 import logo from "../../assets/images/Meubel House_Logos-05.png";
 import { useNavigate } from "react-router-dom";
 import { useHandleLogout } from "../../services/userAuth";
-
+import { showConfirmationToast } from "../../utils/toastNotification/toastNotifications";
 
 const Navbar = () => {
   const token = localStorage?.getItem("token");
-  const handleLogout = useHandleLogout(); 
+  const handleLogout = useHandleLogout();  // Call the hook here
+
+  const confirmLogout = () => {
+    showConfirmationToast(() => handleLogout(), "Are you sure you want to logout?", "Logout");
+  };
   const navigate = useNavigate();
   
   return (
@@ -81,7 +85,7 @@ const Navbar = () => {
               buttonText="Logout"
               type="submit"
               className="w-full my-5 bg-custom-yellow text-custom-white hover:bg-custom-white hover:text-custom-yellow hover:border-custom-yellow text-sm"
-              onClick={handleLogout}
+              onClick={confirmLogout}
             />
           ) : (
             <CustomButton
