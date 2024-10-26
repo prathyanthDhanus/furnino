@@ -11,6 +11,7 @@ const UserLayout = () => {
     "/user/login",
     "/user/register",
     "/user/forgot-password",
+    "/user/otp/login"
   ].includes(location.pathname);
 
   return (

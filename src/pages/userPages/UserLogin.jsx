@@ -44,6 +44,7 @@ const UserLogin = () => {
                 buttonText="Login with OTP"
                 type="submit"
                 className="w-full my-2 bg-gray-100  text-blue-500 hover:shadow-md "
+                onClick={() => navigate("/user/otp/login")}
               />
               <CustomButton
                 buttonText={

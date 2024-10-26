@@ -20,7 +20,7 @@ const CheckOut = lazy(()=>import("../../pages/userPages/CheckOut"));
 const ContactUs = lazy(()=>import("../../pages/userPages/ContactUs"));
 const Wishlist = lazy(()=>import("../../pages/userPages/Wishlist"));
 const CategoryShow = lazy(()=>import("../../pages/userPages/CategoryShowPage"));
-
+const UserLoginwithOTP = lazy(()=>import("../../pages/userPages/UserLoginwithOTP"));
 
 export const userRouter = createBrowserRouter([
   {
@@ -135,6 +135,14 @@ export const userRouter = createBrowserRouter([
         element: (
           <SuspenseWrapper>
             <Wishlist />
+          </SuspenseWrapper>
+        ),
+      },
+      {
+        path: "/user/otp/login",
+        element: (
+          <SuspenseWrapper>
+            <UserLoginwithOTP />
           </SuspenseWrapper>
         ),
       },

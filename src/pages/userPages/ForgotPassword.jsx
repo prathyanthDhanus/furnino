@@ -100,7 +100,7 @@ const ForgotPassword = () => {
                     )}
                   </div>
                   <CustomButton
-                    buttonText="Submit"
+                    buttonText="Verify OTP"
                     type="submit"
                     className="w-full my-4 bg-custom-yellow text-custom-white hover:bg-custom-white hover:text-custom-yellow hover:border-custom-yellow"
                   />
