@@ -119,20 +119,19 @@ export const usePayment = () => {
 export const useLoginWithOtp = () => {
   return useMutation({
     mutationFn: async (values) => {
-   
       const response = await Axios.post("/api/user/otp/login", values);
       return response?.data;
     },
-    onSuccess: ( data ) => {
-      console.log(data?.data?.userId)
+    onSuccess: (data) => {
+      console.log(data?.data?.userId);
       const isPhoneNumber = /^\+?\d+$/.test(
         data.data.userId.replace(/\s+/g, "")
       );
-      console.log(isPhoneNumber)
+      console.log(isPhoneNumber);
       showSuccessToast(data?.message);
       if (isPhoneNumber) {
         localStorage.setItem("phoneNumber", data?.data?.userId);
-      }else{
+      } else {
         localStorage.setItem("email", data?.data?.userId);
       }
     },
@@ -167,8 +166,8 @@ export const useVerifyOtp = () => {
       showSuccessToast(data?.message);
       localStorage.removeItem("phoneNumber");
       localStorage.removeItem("email");
-      localStorage.setItem("token",data?.data)
-       navigate("/")
+      localStorage.setItem("token", data?.data);
+      navigate("/");
     },
     onError: (error) => {
       showErrorToast(
@@ -178,3 +177,101 @@ export const useVerifyOtp = () => {
     },
   });
 };
+
+//=============== user continue with google ==============
+
+export const useContinueWithGoogle = () => {
+  return useMutation({
+    mutationFn: async (email) => {
+      console.log(email);
+      const response = await Axios.post("/api/user/google/login", {
+        email: email,
+      });
+      return response?.data;
+    },
+    onSuccess: (data) => {
+      showSuccessToast(data?.message);
+    },
+    onError: (error) => {
+      showErrorToast(
+        error?.response?.data?.message || "Login failed.Please try again"
+      );
+    },
+  });
+};
+
+//=============== forgot password(send otp) ==============
+
+export const useForgotPassword = () => {
+  return useMutation({
+    mutationFn: async (valuse) => {
+      const response = await Axios.post("/api/user/verify-user", {
+        phoneNumber: `+91${valuse?.phoneNumber}`,
+      });
+      return response?.data;
+    },
+    onSuccess: (data) => {
+      localStorage.setItem("phoneNumber", data?.data?.userId);
+      showSuccessToast(data?.message);
+    },
+    onError: (error) => {
+      showErrorToast(
+        error?.response?.data?.message ||
+          "Phone number verification failed.Please try again"
+      );
+    },
+  });
+};
+
+//=============== forgot password(verify otp) ==============
+
+export const useForgotPasswordVerifyOTP = () => {
+  return useMutation({
+    mutationFn: async (values) => {
+      const phoneNumber = localStorage?.getItem("phoneNumber");
+      const verifyData = {
+        otp: values?.otp,
+        phoneNumber: phoneNumber,
+      };
+      const response = await Axios.post("/api/user/verify-otp", verifyData);
+      return response?.data;
+    },
+    onSuccess: (data) => {
+      showSuccessToast(data?.message);
+    },
+    onError: (error) => {
+      showErrorToast(
+        error?.response?.data?.message ||
+          "OTP verification failed.Please try again"
+      );
+    },
+  });
+};
+
+//=============== create new password ==============
+
+export const useCreateNewPassword = ()=>{
+  const navigate = useNavigate();
+  return useMutation({
+    mutationFn :async(values)=>{
+      const phoneNumber = localStorage?.getItem("phoneNumber");
+      const createData = {
+        newPassword:values?.newPassword,
+        phoneNumber:phoneNumber
+      }
+      const response = await Axios.put("/api/user/password",createData);
+      return response?.data;
+    },
+    onSuccess: (data) => {
+      localStorage.removeItem("phoneNumber");
+      showSuccessToast(data?.message);
+      navigate("/user/login");
+    },
+    onError: (error) => {
+      showErrorToast(
+        error?.response?.data?.message ||
+          "OTP verification failed.Please try again"
+      );
+    },
+  })
+}

@@ -10,9 +10,12 @@ import CustomButton from "../../components/buttton/CustomButton";
 import { useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 import { useDefaultLogin } from "../../services/userAuth";
+import { auth,provider ,signInWithPopup} from "../../utils/firebade/firebaseConfig";
+import { useContinueWithGoogle } from "../../services/userAuth";
 
 const UserLogin = () => {
   const { mutate, isLoading } = useDefaultLogin();
+  const {mutate:googleMutation} = useContinueWithGoogle();
   const navigate = useNavigate();
   const formik = useGlobalFormik({
     initialValues: loginInitialValues,
@@ -26,6 +29,18 @@ const UserLogin = () => {
     },
   });
 
+//======== login with google ===========
+
+const signInWithGoogle = async () => {
+  try {
+    const result = await signInWithPopup(auth, provider ); 
+    googleMutation( result?.user?.email)
+  
+   
+  } catch (error) {
+    console.error("Error during Google Sign-In:", error.message);
+  }
+};
   return (
     <>
       <div className="flex justify-center items-center h-screen">
@@ -54,6 +69,7 @@ const UserLogin = () => {
                 }
                 type="submit"
                 className="w-full my-2 bg-gray-100  text-blue-500 hover:shadow-md "
+                onClick={signInWithGoogle}
               />
             </div>
             <form onSubmit={formik.handleSubmit}>
