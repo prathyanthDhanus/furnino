@@ -8,6 +8,7 @@ import {
   useFetchWishlistOfAUser,
 } from "../../services/product";
 import testImage from "../../assets/images/kids-room-banner.jpg"; 
+import wirshlistimage from "../../assets/images/rb_2506.png"
 
 const Wishlist = () => {
   const navigate = useNavigate();
@@ -26,6 +27,17 @@ const Wishlist = () => {
       />
 
       <div className="container mx-auto p-10">
+        {userWishlist?.data?.length===0 ? (
+          <div className="grid justify-items-center">
+         
+           <img src={wirshlistimage} alt="empty wishlist image" className="w-1/2" />
+          <div className="flex font-sansation font-regular">
+          <p>Your wishlist is empty. <span className="text-blue-500 cursor-pointer">Click here</span> to add items to your wishlist.</p>
+          </div>
+          </div>
+        ) : (
+          <>
+          
         <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
           {userWishlist?.data?.map((wishlistData) => (
             <div
@@ -75,6 +87,8 @@ const Wishlist = () => {
             </div>
           ))}
         </div>
+        </>
+        )}
       </div>
     </>
   );

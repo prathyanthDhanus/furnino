@@ -2,6 +2,7 @@ import React from "react";
 import { CiDeliveryTruck } from "react-icons/ci";
 
 const AddressCard = ({ addressData }) => {
+
   const getAddressTypeBgColor = (addressType) => {
     switch (addressType?.toLowerCase()) {
       case 'home':

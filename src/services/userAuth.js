@@ -57,27 +57,6 @@ export const useRegisterUser = () => {
   });
 };
 
-// =========== fetch user profile details ============
-
-export const useFetchProfile = () => {
-  return useQuery({
-    queryKey: ["userProfile"],
-    queryFn: async () => {
-      const response = await Axios.get("/api/user/profile");
-      return response?.data?.data;
-    },
-    onSuccess: (data) => {
-      showSuccessToast(data?.message);
-    },
-    onError: (error) => {
-      showErrorToast(
-        error?.response?.data?.message ||
-          "Failed to fetch user profile data. Try again."
-      );
-    },
-  });
-};
-
 // =========== user logout function ============
 
 export const useHandleLogout = () => {
@@ -105,6 +84,9 @@ export const usePayment = () => {
     },
     onSuccess: (data) => {
       showSuccessToast(data?.message);
+      if (data?.data) {
+        window.location.href = data?.data;
+      }
     },
     onError: (error) => {
       showErrorToast(
@@ -250,16 +232,16 @@ export const useForgotPasswordVerifyOTP = () => {
 
 //=============== create new password ==============
 
-export const useCreateNewPassword = ()=>{
+export const useCreateNewPassword = () => {
   const navigate = useNavigate();
   return useMutation({
-    mutationFn :async(values)=>{
+    mutationFn: async (values) => {
       const phoneNumber = localStorage?.getItem("phoneNumber");
       const createData = {
-        newPassword:values?.newPassword,
-        phoneNumber:phoneNumber
-      }
-      const response = await Axios.put("/api/user/password",createData);
+        newPassword: values?.newPassword,
+        phoneNumber: phoneNumber,
+      };
+      const response = await Axios.put("/api/user/password", createData);
       return response?.data;
     },
     onSuccess: (data) => {
@@ -273,5 +255,87 @@ export const useCreateNewPassword = ()=>{
           "OTP verification failed.Please try again"
       );
     },
-  })
-}
+  });
+};
+
+//=============== add user profile ==============
+
+export const useCreateProfile = () => {
+  const navigate = useNavigate();
+  return useMutation({
+    mutationFn: async (values) => {
+      const response = await Axios.post("/api/user/address", values);
+      return response.data;
+    },
+    onSuccess: (data) => {
+      showSuccessToast(data?.message);
+      navigate("/product/checkout");
+    },
+    onError: (error) => {
+      showErrorToast(
+        error?.response?.data?.message ||
+          "Profile creation failed.Please try again"
+      );
+    },
+  });
+};
+
+// =========== fetch user profile details ============
+
+export const useFetchProfile = () => {
+  return useQuery({
+    queryKey: ["userProfile"],
+    queryFn: async () => {
+      const response = await Axios.get("/api/user/profile");
+      return response?.data?.data;
+    },
+    onSuccess: (data) => {
+      showSuccessToast(data?.message);
+    },
+    onError: (error) => {
+      showErrorToast(
+        error?.response?.data?.message ||
+          "Failed to fetch user profile data. Try again."
+      );
+    },
+  });
+};
+
+// =========== update user profile details ============
+
+export const useUpdateProfile = () => {
+  return useMutation({
+    mutationFn: async ({ addressId }) => {
+      const response = await Axios.put(`/api/user/address/:${addressId}`);
+      return response?.data;
+    },
+    onSuccess: (data) => {
+      showSuccessToast(data?.message);
+    },
+    onError: (error) => {
+      showErrorToast(
+        error?.response?.data?.message ||
+          "Failed to update user profile. Try again."
+      );
+    },
+  });
+};
+// =========== delete user profile details ============
+
+export const useDeleteProfile = () => {
+  return useMutation({
+    mutationFn: async ({ addressId }) => {
+      const response = await Axios.delete(`/api/user/address/:${addressId}`);
+      return response?.data;
+    },
+    onSuccess: (data) => {
+      showSuccessToast(data?.message);
+    },
+    onError: (error) => {
+      showErrorToast(
+        error?.response?.data?.message ||
+          "Failed to delete user profile. Try again."
+      );
+    },
+  });
+};

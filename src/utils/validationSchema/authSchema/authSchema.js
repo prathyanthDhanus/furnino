@@ -5,6 +5,14 @@ import {
   nameValidation,
   phoneValidation,
   otpValidation,
+  houseNameValidation,
+  streetValidation,
+  landMarkValidation,
+  cityValidation,
+  districtValidation,
+  stateValidation,
+  pincodeValidation,
+  addressTypeValidation,
 } from "../commonValidation";
 
 // --------------------- login section ----------------------
@@ -86,3 +94,34 @@ export const loginOTPSchema = Yup.object().shape({
   otp: otpValidation,
 });
 //--------------------- login with otp section end --------------------
+
+//--------------------- user profile section --------------------
+
+ export const userProfileInitialValues = {
+    name:"",
+    houseName:"",
+    street:"",
+    landMark:"",
+    city:"",
+    district:"",
+    state:"",
+    pincode:"",
+    addressType:"",
+    
+ }
+//--------------------- user profile section ---------------------
+
+export const userProfileSchema = Yup.object().shape({
+    name:nameValidation,
+    houseName:houseNameValidation,
+    street :streetValidation,
+    landMark:landMarkValidation,
+    city:cityValidation,
+    district:districtValidation,
+    state:stateValidation,
+    pincode:pincodeValidation,
+    addressType: Yup.string()
+      .oneOf(["Home", "Office", "Others"], "Please select a valid address type")
+      .required("Address type is required"),
+
+  });

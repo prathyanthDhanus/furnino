@@ -30,6 +30,12 @@ export const pincodeValidation = Yup.string()
   .required("Pincode is required");
 
 export const addressValidation = Yup.string().required("Address is required");
+export const houseNameValidation = Yup.string().required("House name is required");
+export const streetValidation = Yup.string().required("Street is required");
+export const landMarkValidation = Yup.string().required("Landmark is required");
+export const cityValidation = Yup.string().required("City is required");
+export const districtValidation = Yup.string().required("District is required");
+export const stateValidation = Yup.string().required("State is required");
 
 export const addressTypeValidation = Yup.string().required(
   "Please select an address type"

@@ -15,7 +15,7 @@ const TodaysOffer = () => {
             <hr className="w-[2.5rem] h-1 my-2 border-custom-yellow border-t-2  dark:border-custom-yellow" />
           </div>
           <div className="m-4">
-            <h1 className=" font-sansation font-bold text-3xl   ">
+            <h1 className=" font-sansation font-bold text-2xl sm:text-3xl md:text-4xl lg:text-3xl xl:text-3xl block  ">
               Todays Special offers
             </h1>
           </div>
@@ -34,7 +34,7 @@ const TodaysOffer = () => {
             <hr className="w-[2.5rem] h-1 my-2 border-custom-yellow border-t-2  dark:border-custom-yellow" />
           </div>
           <div className="m-4">
-            <h1 className=" font-sansation font-bold text-3xl   ">
+            <h1 className=" font-sansation font-bold text-[1.3rem] sm:text-3xl md:text-2xl lg:text-3xl xl:text-3xl block">
               Best-Sellers of the Season
             </h1>
           </div>

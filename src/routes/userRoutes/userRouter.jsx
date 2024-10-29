@@ -2,6 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import { lazy } from "react";
 import UserLayout from "../../layout/userLayout/UserLayout";
 import SuspenseWrapper from "../../components/suspenceWrapper/SuspenceWrapper";
+import PaymentSelection from "../../pages/userPages/PaymentSelection";
 
 
 
@@ -21,6 +22,10 @@ const ContactUs = lazy(()=>import("../../pages/userPages/ContactUs"));
 const Wishlist = lazy(()=>import("../../pages/userPages/Wishlist"));
 const CategoryShow = lazy(()=>import("../../pages/userPages/CategoryShowPage"));
 const UserLoginwithOTP = lazy(()=>import("../../pages/userPages/UserLoginwithOTP"));
+const UserProfile = lazy(()=>import("../../pages/userPages/UserProfile"));
+
+
+
 
 export const userRouter = createBrowserRouter([
   {
@@ -143,6 +148,22 @@ export const userRouter = createBrowserRouter([
         element: (
           <SuspenseWrapper>
             <UserLoginwithOTP />
+          </SuspenseWrapper>
+        ),
+      },
+      {
+        path: "/user/create/profile",
+        element: (
+          <SuspenseWrapper>
+            <UserProfile />
+          </SuspenseWrapper>
+        ),
+      },
+      {
+        path: "/user/payment/selection",
+        element: (
+          <SuspenseWrapper>
+            <PaymentSelection/>
           </SuspenseWrapper>
         ),
       },

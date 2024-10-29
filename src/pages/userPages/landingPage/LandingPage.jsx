@@ -15,43 +15,39 @@ const LandingPage = () => {
     const navigate = useNavigate();
   return (
     <>
-      <div
-        style={{
-          backgroundImage: `url(${landingImage})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          height: "100vh",
-          width: "100%",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-        
-      >
-        <div className="grid sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 ">
-          <div></div>
-          <div className="bg-[#FFF3E3] p-10 m-20 rounded-md">
-            <p className="font-sansation font-regular">🎀 New Arrival</p>
-            <div className="font-sansation font-bold text-custom-yellow text-6xl">
-              <h5>Discover Our</h5>
-              <h5>New Collection</h5>
-            </div>
-            <p className="font-sansation font-regular mt-2">
-              Explore our latest furniture designs, featuring stylish sofas,
-              elegant dining sets, and chic bedroom pieces. Crafted with quality
-              and care, these new arrivals are perfect for enhancing any space.
-              Discover them now and transform your home with fresh, contemporary
-              pieces!
-            </p>
-            <CustomButton
-              buttonText="Explore Now"
-              type="submit"
-              className="w-1/2 my-2 bg-custom-yellow text-custom-white hover:bg-custom-white hover:text-custom-yellow hover:border-custom-yellow "
-              onClick={()=>navigate("/user/shop")}
-            />
-          </div>
-        </div>
+    <div 
+  style={{ 
+    backgroundImage: `url(${landingImage})`, 
+    backgroundSize: "cover", 
+    backgroundPosition: "center", 
+    height: "100vh", 
+    width: "100%", 
+    display: "flex", 
+    justifyContent: "center", 
+    alignItems: "center" 
+  }} 
+>
+  <div className="grid sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 sm:gap-4 md:gap-6 lg:gap-8 xl:gap-10 p-5 sm:p-2 md:p-3 lg:p-4">
+    <div></div>
+    <div className="bg-[#FFF3E3] p-5 sm:p-2 md:p-4 lg:p-8 rounded-md m-4 sm:m-2 md:m-4 lg:m-8">
+      <p className="font-sansation font-regular">New Arrival 🎀</p>
+      <div className="font-sansation font-bold text-custom-yellow text-4xl sm:text-2xl md:text-3xl lg:text-6xl">
+        <h5>Discover Our</h5>
+        <h5>New Collection</h5>
       </div>
+      <p className="font-sansation font-regular mt-2 text-base sm:text-sm md:text-md lg:text-lg">
+        Explore our latest furniture designs, featuring stylish sofas, elegant dining sets, and chic bedroom pieces. Crafted with quality and care, these new arrivals are perfect for enhancing any space. Discover them now and transform your home with fresh, contemporary pieces!
+      </p>
+      <CustomButton 
+        buttonText="Explore Now" 
+        type="submit" 
+        className="w-full sm:w-3/4 md:w-1/2 lg:w-1/2 my-2 bg-custom-yellow text-custom-white hover:bg-custom-white hover:text-custom-yellow hover:border-custom-yellow" 
+        onClick={() => navigate("/user/shop")} 
+      />
+    </div>
+  </div>
+</div>
+
       <div className=" flex justify-center items-center my-5">
         <div className="flex items-center ">
           <div className="relative">
@@ -59,7 +55,7 @@ const LandingPage = () => {
             <hr className="w-[2.5rem] h-1 my-2 border-custom-yellow border-t-2  dark:border-custom-yellow" />
           </div>
           <div className="m-4">
-            <h1 className=" font-sansation font-bold text-3xl   ">
+            <h1 className="font-sansation font-bold text-2xl sm:text-3xl md:text-4xl lg:text-3xl xl:text-3xl block ">
             Browse Our Collections
             </h1>
           </div>

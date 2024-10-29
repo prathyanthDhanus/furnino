@@ -27,6 +27,7 @@ const Cart = () => {
   } = useGetProductsFromtheCart();
   const { data: userProfile, isSuccess: userProfileSuccess } =
     useFetchProfile();
+
   const {
     data: cartTotal,
     isSuccess: isCartTotalSuccess,
@@ -66,10 +67,10 @@ const Cart = () => {
     );
   };
 
-  const handlePaymentCheckOut = () => {
-    const totalAmount = cartTotal ? cartTotal + deliveryCharge : 0;
-    userPayment({ totalAmount }); // Call the mutate function for payment
-  };
+  // const handlePaymentCheckOut = () => {
+  //   const totalAmount = cartTotal ? cartTotal + deliveryCharge : 0;
+  //   userPayment({ totalAmount }); // Call the mutate function for payment
+  // };
   
   const totalAmount = cartTotal ? cartTotal + deliveryCharge : 0;
   return (
@@ -98,6 +99,7 @@ const Cart = () => {
             <div className="grid grid-cols-6 gap-8">
               {/* Left Side - 4 columns */}
               <div className="col-span-4">
+
                 {userProfile?.map((item) =>
                   item?.address?.map((user) => (
                     <AddressCard key={user._id} addressData={user} />
@@ -153,7 +155,7 @@ const Cart = () => {
                   buttonText="Proceed TO Checkout"
                   type="submit"
                   className="w-full sm:text-sm md:text:sm lg:text-base  bg-blue-400 text-custom-white hover:bg-custom-white hover:text-blue-400 hover:border-blue-400 my-5"
-                  onClick={handlePaymentCheckOut}
+                  onClick={()=>navigate("/user/payment/selection")}
                 />
               </div>
             </div>
