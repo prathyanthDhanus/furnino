@@ -25,8 +25,7 @@ const Cart = () => {
     refetch: refetchProductFromTheCart,
     error: errorGetProductFromCart,
   } = useGetProductsFromtheCart();
-  const { data: userProfile, isSuccess: userProfileSuccess } =
-    useFetchProfile();
+
 
   const {
     data: cartTotal,
@@ -35,7 +34,7 @@ const Cart = () => {
   } = useCartTotal();
   const { mutate: quantityUpdate } = useUpdateQuantityOfAProduct();
   const { mutate: deleteFromCart } = useDeleteProductFromCart();
-  const { mutate: userPayment } = usePayment();
+
 //  console.log(errorGetProductFromCart?.response?.status)
   const handleQuantityChange = (newQuantity, productId) => {
     quantityUpdate(
@@ -67,12 +66,13 @@ const Cart = () => {
     );
   };
 
-  // const handlePaymentCheckOut = () => {
-  //   const totalAmount = cartTotal ? cartTotal + deliveryCharge : 0;
-  //   userPayment({ totalAmount }); // Call the mutate function for payment
-  // };
   
   const totalAmount = cartTotal ? cartTotal + deliveryCharge : 0;
+  
+  const handleClickProccedToCheckOut = ()=>{
+   localStorage.setItem('totalAmount',totalAmount)
+   navigate("/product/checkout");
+  }
   return (
     <>
       <HeaderBanner
@@ -96,15 +96,11 @@ const Cart = () => {
       ) : (
         <>
           <div className="container mx-auto p-5">
-            <div className="grid grid-cols-6 gap-8">
+            <div className="grid sm:grid-cols-1  md:grid-cols-1  lg:grid-cols-6  xl:grid-cols-6 gap-8 justify-items-center w-full">
               {/* Left Side - 4 columns */}
               <div className="col-span-4">
 
-                {userProfile?.map((item) =>
-                  item?.address?.map((user) => (
-                    <AddressCard key={user._id} addressData={user} />
-                  ))
-                )}
+              
 
                 {cart?.map((cartData) => (
                   <div className="mt-10" key={cartData?._id}>
@@ -124,14 +120,15 @@ const Cart = () => {
                       }
                       onDelete={() => handleDeleteClick(cartData?._id)}
                       hideCheck={false}
-                      onClick={()=>navigate(`/view/product/${ cartData?.productId?._id}`)}
+                   
+                      onClick={() => navigate(`/view/product/${cartData?.productId?._id}`)}
                     />
                   </div>
                 ))}
               </div>
 
               {/* Right Side - 2 columns */}
-              <div className="col-span-2 bg-gray-100 p-5 rounded-xl shadow-xl h-[16rem]">
+              <div className="col-span-2 bg-gray-100 p-5 rounded-xl shadow-xl h-[16rem]  w-full">
                 <h2 className="font-sansation font-bold text-xl mb-4">
                   Summary
                 </h2>
@@ -155,7 +152,9 @@ const Cart = () => {
                   buttonText="Proceed TO Checkout"
                   type="submit"
                   className="w-full sm:text-sm md:text:sm lg:text-base  bg-blue-400 text-custom-white hover:bg-custom-white hover:text-blue-400 hover:border-blue-400 my-5"
-                  onClick={()=>navigate("/user/payment/selection")}
+                  // onClick={()=>navigate(`/user/payment/selection/${totalAmount}`)}
+                  onClick={handleClickProccedToCheckOut}
+                 
                 />
               </div>
             </div>

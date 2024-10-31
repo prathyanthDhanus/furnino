@@ -1,51 +1,35 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import headingImage from "../../assets/images/Rectangle 1.png";
 import HeaderBanner from "../../components/banner/HeaderBanner";
-import CustomButton from "../../components/buttton/CustomButton";
 import AddressCard from "../../components/card/AddressCard";
-import CartViewCard from "../../components/card/CartViewCard";
-import testImage from "../../assets/images/kids-room-banner.jpg";
 import { useFetchProfile } from "../../services/userAuth";
 import profileImage from "../../assets/images/Personal site-amico.png";
 import SuspenseWrapper from "../../components/suspenceWrapper/SuspenceWrapper";
+import CustomButton from "../../components/buttton/CustomButton";
 
 const CheckOut = () => {
   const navigate = useNavigate();
-  const { data: userProfile, isSuccess: userProfileSuccess, isLoading } = useFetchProfile();
+  const {
+    data: userProfile,
+    isSuccess: userProfileSuccess,
+    isLoading,
+  } = useFetchProfile();
 
-  const profileData = [
-    {
-      address: [
-        {
-          name: "Prathyanth",
-          houseName: "Kalathil House",
-          street: "Onden Road",
-          landMark: "Janakiya Road",
-          city: "Azhikode",
-          district: "Kannur",
-          state: "Kerala",
-          pincode: "670009",
-          addressType: "Home",
-        },
-      ],
-    },
-    {
-      address: [
-        {
-          name: "Prathyanth",
-          houseName: "Kalathil House",
-          street: "Onden Road",
-          landMark: "Janakiya Road",
-          city: "Azhikode",
-          district: "Kannur",
-          state: "Kerala",
-          pincode: "670009",
-          addressType: "Office",
-        },
-      ],
-    },
-  ];
+  // State variable to store the selected addressId
+  const [selectedAddressId, setSelectedAddressId] = useState(null);
+
+  // Handler function to set selected addressId
+  const handleAddressSelect = (addressId) => {
+    setSelectedAddressId(addressId);
+    localStorage.setItem("addressId",addressId);
+    
+  };
+
+const handleGoPaymnent = ()=>{
+  const totalAmount = localStorage.getItem("totalAmount");
+  navigate(`/user/payment/selection/${totalAmount}`)
+}
 
   return (
     <>
@@ -54,11 +38,10 @@ const CheckOut = () => {
         title="Checkout"
         currentPage="Checkout"
       />
-      <div className="container mx-auto p-5 m-10">
+      <div className="container mx-auto p-5 m-10 ">
         {isLoading ? (
-         <SuspenseWrapper/>
+          <SuspenseWrapper />
         ) : userProfile && userProfile[0]?.address?.length === 0 ? (
-          // Show image if there is no address
           <>
             <img src={profileImage} alt="profile" className="h-screen" />
             <p className="font-sansation font-bold text-center">
@@ -73,56 +56,28 @@ const CheckOut = () => {
             </p>
           </>
         ) : (
-          // Show profileData and cart details if there is address data
           <>
-            {profileData?.map((item, index) => (
-              <AddressCard key={index} addressData={item.address} />
-            ))}
-
-            <div className="grid grid-cols-6 gap-8 mt-10">
-              {/* Left Side - 4 columns */}
-              <div className="col-span-4">
-                <CartViewCard
-                  imageSrc={testImage}
-                  productTitle="Product Title"
-                  size="M"
-                  price="$50"
-                  stockStatus="In Stock"
-                  quantity={1}
-                  step={1}
-                  onQuantityChange={(newQuantity) => console.log(newQuantity)}
-                  onDelete={() => console.log("Deleted")}
-                  hideCheck={true}
+            {userProfile?.map((item) =>
+              item?.address?.map((user) => (
+                <AddressCard
+                  key={user._id}
+                  addressData={user}
+                  onAddressSelect={handleAddressSelect} // Pass the handler to AddressCard
+                  isSelected={selectedAddressId === user._id} // Mark as selected if it matches selectedAddressId
                 />
-              </div>
-
-              {/* Right Side - 2 columns */}
-              <div className="col-span-2 bg-gray-100 p-5 rounded-xl shadow-xl">
-                <h2 className="font-sansation font-bold text-xl mb-4">
-                  Summary
-                </h2>
-                <div className="flex flex-col space-y-2">
-                  <div className="flex justify-between">
-                    <span>Item Total</span>
-                    <span>₹5000</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Delivery Charges</span>
-                    <span>₹150</span>
-                  </div>
-                  <div className="flex justify-between font-bold text-lg">
-                    <span>Total</span>
-                    <span>₹5150</span>
-                  </div>
-                </div>
-                <CustomButton
-                  buttonText="Proceed TO Checkout"
-                  type="submit"
-                  className="w-full bg-blue-400 text-custom-white hover:bg-custom-white hover:text-blue-400 hover:border-blue-400 my-5"
-                />
-              </div>
-            </div>
+              ))
+            )}
           </>
+        )}
+      </div>
+      <div className="grid justify-items-center ">
+        {selectedAddressId && (
+          <CustomButton
+            buttonText="Next"
+            type="submit"
+            className="w-full bg-blue-400 text-custom-white hover:bg-custom-white hover:text-blue-400 hover:border-blue-400"
+            onClick={handleGoPaymnent}
+          />
         )}
       </div>
     </>

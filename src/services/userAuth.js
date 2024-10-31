@@ -76,14 +76,23 @@ export const useHandleLogout = () => {
 
 export const usePayment = () => {
   return useMutation({
-    mutationFn: async ({ totalAmount }) => {
+    mutationFn: async ({ totalAmount,addressId,productId,selectedCapacity,quantity}) => {
       const response = await Axios.post("/api/user/payment", {
         totalAmount: totalAmount,
+        addressId:addressId,
+        productId:productId,
+        selectedCapacity:selectedCapacity,
+        quantity :quantity
       });
       return response?.data;
     },
     onSuccess: (data) => {
       showSuccessToast(data?.message);
+      localStorage.removeItem("totalAmount");
+      localStorage.removeItem("quantity");
+      localStorage.removeItem("productId");
+      localStorage.removeItem("addressId");
+      localStorage.removeItem("selectedCapacity");
       if (data?.data) {
         window.location.href = data?.data;
       }

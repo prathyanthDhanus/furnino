@@ -160,7 +160,7 @@ export const userRouter = createBrowserRouter([
         ),
       },
       {
-        path: "/user/payment/selection",
+        path: "/user/payment/selection/:totalAmount",
         element: (
           <SuspenseWrapper>
             <PaymentSelection/>

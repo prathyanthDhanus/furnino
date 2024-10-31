@@ -1,8 +1,7 @@
 import React from "react";
 import { CiDeliveryTruck } from "react-icons/ci";
 
-const AddressCard = ({ addressData }) => {
-
+const AddressCard = ({ addressData, onAddressSelect, isSelected }) => {
   const getAddressTypeBgColor = (addressType) => {
     switch (addressType?.toLowerCase()) {
       case 'home':
@@ -10,9 +9,10 @@ const AddressCard = ({ addressData }) => {
       case 'office':
         return 'bg-orange-400';
       default:
-        return 'bg-blue-600'; 
+        return 'bg-blue-600';
     }
   };
+
   return (
     <div className="grid grid-cols-8 items-center border my-3 rounded-xl shadow-xl py-3">
       <div className="col-span-1 text-4xl flex justify-center p-2">
@@ -40,7 +40,12 @@ const AddressCard = ({ addressData }) => {
         </div>
       </div>
       <div className="col-span-1 text-xl hover:shadow-xl bg-gray-100 w-10 h-10 flex items-center justify-center rounded-full">
-        <input type="checkbox" className="cursor-pointer" />
+        <input
+          type="checkbox"
+          className="cursor-pointer"
+          checked={isSelected} // Checkbox is checked if address is selected
+          onChange={() => onAddressSelect(addressData._id)} // Update selected address on change
+        />
       </div>
     </div>
   );

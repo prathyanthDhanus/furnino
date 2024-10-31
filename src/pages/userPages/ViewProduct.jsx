@@ -19,6 +19,7 @@ import {
   useFetchWishlistOfAUser,
   useDeleteFromWishlist,
 } from "../../services/product";
+import Zoom from "react-medium-image-zoom";
 
 const ViewProduct = () => {
   const navigate = useNavigate();
@@ -34,7 +35,7 @@ const ViewProduct = () => {
   const { data: userWishlist, refetch: refetchUserWishlist } =
     useFetchWishlistOfAUser();
 
-  const { mutate: deleteFromCart } = useDeleteFromWishlist();
+  const { mutate: deleteFromCart} = useDeleteFromWishlist();
 
   const isWishlisted = userWishlist?.data?.some(
     (item) => item?.productId?._id === productId
@@ -57,7 +58,7 @@ const ViewProduct = () => {
     );
   };
   
-  const deleteFromWishlist = () => {
+  const deleteFromWishlist = () => {    
     const wishlistProduct = userWishlist?.data?.filter(
       (wishlistData) => wishlistData?.productId?._id === productId
     );
@@ -76,7 +77,9 @@ const ViewProduct = () => {
     info,
     additionalInfo,
     rating,
+    discountPrice,
     seatingCapacity,
+    _id
   } = product || {};
 
   //to show clicked image on right side
@@ -105,6 +108,20 @@ const ViewProduct = () => {
   const handleNavProductCompare = () => {
     navigate(`/product/compare/${productId}`);
   };
+  
+
+  const handleBuyNowClick = ()=>{
+    if (!selectedCapacity) {
+      setErrorMessage("Please select a seating capacity.");
+      return;
+    }
+    const totalAmount = discountPrice*quantity;
+    localStorage.setItem("totalAmount",totalAmount);
+    localStorage.setItem("quantity",quantity);
+    localStorage.setItem("productId",_id);
+    localStorage.setItem("selectedCapacity",selectedCapacity);
+    navigate("/product/checkout");
+  }
 
   return (
     <>
@@ -129,11 +146,14 @@ const ViewProduct = () => {
         </div>
         <div className="col-span-4 ">
           {testImage ? (
-            <img
-              src={testImage}
-              alt="Selected Product"
-              className="object-cover "
-            />
+               <Zoom>
+               <img
+                 src={testImage || (images && images[0]) || ""}
+                 alt="Product Zoom"
+                 className="object-cover"
+                 style={{ cursor: "zoom-in" }}
+               />
+             </Zoom>  
           ) : images && images.length > 0 ? (
             <img
               src={images[0]}
@@ -181,7 +201,12 @@ const ViewProduct = () => {
           <div className="m-2 font-sansation font-regular">
             <div className="flex items-center ">
               <FaIndianRupeeSign />
-              <p className="font-sansation font-bold text-2xl">{price}</p>
+              <p className={`${discountPrice ? "line-through font-sansation font-regular text-gray-500 text-xl" : ""} mr-2`}
+              
+              >
+              {price}
+            </p>
+            <FaIndianRupeeSign /> <p className="font-sansation font-bold  text-xl">{discountPrice}</p>
             </div>
             <div>
               {stock === 0 && (
@@ -222,11 +247,7 @@ const ViewProduct = () => {
               <p className="text-red-500 text-sm mt-2">{errorMessage}</p>
             )}
 
-            {/* <span>Colour</span>
-            <div className="flex gap-4 my-2">
-              <p className="w-[1rem] h-[1rem] bg-yellow-400 rounded-full cursor-pointer"></p>
-              <p className="w-[1rem] h-[1rem] bg-red-400 rounded-full cursor-pointer"></p>
-            </div> */}
+        
             <div className="flex gap-5 my-3">
               <div className="grid grid-cols-2  w-full gap-5">
                 {stock === 0 ? (
@@ -249,7 +270,7 @@ const ViewProduct = () => {
                       buttonText="Buy Now"
                       type="submit"
                       className="w-full bg-red-500 text-custom-white hover:bg-custom-white hover:text-red-500 hover:border-red-500"
-                      onClick={() => navigate("/product/checkout")}
+                      onClick={handleBuyNowClick}
                     />
                   </>
                 )}

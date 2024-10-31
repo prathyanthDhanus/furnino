@@ -35,24 +35,24 @@ const Navbar = () => {
 
         {/* Desktop Menu */}
         <div className="hidden md:grid md:grid-cols-5 font-sansation font-bold items-center h-full gap-6">
-        {["Home", "Shop", "About", "Contact", "Blog"].map((item, index) => {
-  const routes = {
-    Home: "/",
-    Shop: "/user/shop",
-    About: "/about-us",
-    Contact: "/contact-us",
-    Blog: "/blog",
-  };
-  return (
-    <li
-      key={index}
-      className=" cursor-pointer hover:text-custom-yellow"
-      onClick={() => navigate(routes[item])}
-    >
-      {item}
-    </li>
-  );
-})}
+          {["Home", "Shop", "About", "Contact", "Blog"].map((item, index) => {
+            const routes = {
+              Home: "/",
+              Shop: "/user/shop",
+              About: "/about-us",
+              Contact: "/contact-us",
+              Blog: "/blog",
+            };
+            return (
+              <li
+                key={index}
+                className=" cursor-pointer hover:text-custom-yellow"
+                onClick={() => navigate(routes[item])}
+              >
+                {item}
+              </li>
+            );
+          })}
         </div>
 
         {/* Mobile Menu Icon */}
@@ -62,14 +62,19 @@ const Navbar = () => {
 
         {/* Profile, Search, Wishlist, Cart */}
         <div className="hidden md:flex gap-4 items-center text-2xl">
+          <div className="flex items-center border border-custom-yellow rounded p-1">
+            <input
+              type="text"
+              className="border-none outline-none px-2  py-1 flex-1 text-sm font-sansation font-regular"
+              placeholder="Search"
+            />
+          </div>
+
           <FiUserCheck
             title="Profile"
             className="cursor-pointer hover:text-custom-yellow"
           />
-          <FiSearch
-            title="Search"
-            className="cursor-pointer hover:text-custom-yellow"
-          />
+
           <IoMdHeartEmpty
             title="Wishlist"
             className="cursor-pointer hover:text-custom-yellow"
@@ -119,15 +124,20 @@ const Navbar = () => {
               </li>
             );
           })}
+           <div className="flex items-center border border-custom-yellow rounded p-1">
+            <input
+              type="text"
+              className="border-none outline-none px-2  py-1 flex-1 text-sm"
+              placeholder="Search"
+            />
+          </div>
           <div className="flex gap-4 mt-4">
+         
             <FiUserCheck
               title="Profile"
               className="text-2xl cursor-pointer hover:text-custom-yellow"
             />
-            <FiSearch
-              title="Search"
-              className="text-2xl cursor-pointer hover:text-custom-yellow"
-            />
+          
             <IoMdHeartEmpty
               title="Wishlist"
               className="text-2xl cursor-pointer hover:text-custom-yellow"

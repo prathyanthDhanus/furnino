@@ -14,7 +14,7 @@ import { auth,provider ,signInWithPopup} from "../../utils/firebade/firebaseConf
 import { useContinueWithGoogle } from "../../services/userAuth";
 
 const UserLogin = () => {
-  const { mutate, isLoading } = useDefaultLogin();
+  const { mutate, isPending } = useDefaultLogin();
   const {mutate:googleMutation} = useContinueWithGoogle();
   const navigate = useNavigate();
   const formik = useGlobalFormik({
@@ -99,7 +99,7 @@ const signInWithGoogle = async () => {
                 buttonText="LOGIN"
                 type="submit"
                 className="w-full my-5 bg-custom-yellow text-custom-white hover:bg-custom-white hover:text-custom-yellow hover:border-custom-yellow"
-                disabled={isLoading}
+                disabled={isPending}
               />
             </form>
             <div className="text-center">
