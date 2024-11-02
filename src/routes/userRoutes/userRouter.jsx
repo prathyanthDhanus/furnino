@@ -2,7 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import { lazy } from "react";
 import UserLayout from "../../layout/userLayout/UserLayout";
 import SuspenseWrapper from "../../components/suspenceWrapper/SuspenceWrapper";
-import PaymentSelection from "../../pages/userPages/PaymentSelection";
+
 
 
 
@@ -23,6 +23,10 @@ const Wishlist = lazy(()=>import("../../pages/userPages/Wishlist"));
 const CategoryShow = lazy(()=>import("../../pages/userPages/CategoryShowPage"));
 const UserLoginwithOTP = lazy(()=>import("../../pages/userPages/UserLoginwithOTP"));
 const UserProfile = lazy(()=>import("../../pages/userPages/UserProfile"));
+const PaymentSelection = lazy(()=>import("../../pages/userPages/PaymentSelection"));
+const MyOrders = lazy(()=>import("../../pages/userPages/MyOrders"));
+const AddReview = lazy(()=>import("../../pages/userPages/AddReview"));
+const MyOrdersDetailView = lazy(()=>import("../../pages/userPages/MyOrdersDetailView"));
 
 
 
@@ -164,6 +168,30 @@ export const userRouter = createBrowserRouter([
         element: (
           <SuspenseWrapper>
             <PaymentSelection/>
+          </SuspenseWrapper>
+        ),
+      },
+      {
+        path: "/create/review",
+        element: (
+          <SuspenseWrapper>
+            <AddReview/>
+          </SuspenseWrapper>
+        ),
+      },
+      {
+        path: "/my-orders",
+        element: (
+          <SuspenseWrapper>
+            <MyOrders/>
+          </SuspenseWrapper>
+        ),
+      },
+      {
+        path: "/view/my-orders/:productId",
+        element: (
+          <SuspenseWrapper>
+            <MyOrdersDetailView/>
           </SuspenseWrapper>
         ),
       },

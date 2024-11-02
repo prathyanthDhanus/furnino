@@ -211,3 +211,24 @@ export const useDeleteFromWishlist = () => {
   });
 };
 
+// ============== fetch myorders ===============
+
+export const useMyOrders = ()=>{
+  return useQuery({
+    queryKey:["myOrders"],
+    queryFn:async()=>{
+      const response = await Axios.get("/api/order/my-orders");
+      return response?.data?.data;
+    },
+    onSuccess: (data) => {
+      showSuccessToast(data?.message);
+    },
+    onError: (error) => {
+      showErrorToast(
+        error?.response?.data?.message ||
+          "Failed to fetch orders. Try again."
+      );
+    },
+
+  })
+}
