@@ -17,7 +17,7 @@ const UserProfile = () => {
     initialValues: userProfileInitialValues,
     validationSchema: userProfileSchema,
     onSubmit: (value) => {
-      console.log(value)
+      // console.log(value)
       profileMutate(value)
     },
   });
@@ -25,8 +25,8 @@ const UserProfile = () => {
     <>
       <HeaderBanner
         headingImage={headingImage}
-        title="User Profile"
-        currentPage="User Profile"
+        title=" Create Profile"
+        currentPage="Create Profile"
       />
       <div className="container mx-auto p-5 m-10">
         <div className="grid grid-cols-1 lg:mx-20 lg:px-20">

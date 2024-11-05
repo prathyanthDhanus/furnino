@@ -10,6 +10,7 @@ import { showConfirmationToast } from "../../utils/toastNotification/toastNotifi
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false); // Track mobile menu state
+  const [dialogOpen, setDialogOpen] = useState(false); // Track profile dialog state
   const token = localStorage?.getItem("token");
   const handleLogout = useHandleLogout();
   const navigate = useNavigate();
@@ -23,6 +24,7 @@ const Navbar = () => {
   };
 
   const toggleMenu = () => setMenuOpen(!menuOpen); // Toggle mobile menu
+  const toggleDialog = () => setDialogOpen(!dialogOpen); // Toggle profile dialog
 
   return (
     <div className="fixed w-full z-10 bg-white p-5">
@@ -46,7 +48,7 @@ const Navbar = () => {
             return (
               <li
                 key={index}
-                className=" cursor-pointer hover:text-custom-yellow"
+                className="cursor-pointer hover:text-custom-yellow"
                 onClick={() => navigate(routes[item])}
               >
                 {item}
@@ -65,7 +67,7 @@ const Navbar = () => {
           <div className="flex items-center border border-custom-yellow rounded p-1">
             <input
               type="text"
-              className="border-none outline-none px-2  py-1 flex-1 text-sm font-sansation font-regular"
+              className="border-none outline-none px-2 py-1 flex-1 text-sm font-sansation font-regular"
               placeholder="Search"
             />
           </div>
@@ -73,6 +75,7 @@ const Navbar = () => {
           <FiUserCheck
             title="Profile"
             className="cursor-pointer hover:text-custom-yellow"
+            onClick={toggleDialog}
           />
 
           <IoMdHeartEmpty
@@ -117,27 +120,27 @@ const Navbar = () => {
             return (
               <li
                 key={index}
-                className=" cursor-pointer hover:text-custom-yellow"
+                className="cursor-pointer hover:text-custom-yellow"
                 onClick={() => navigate(routes[item])}
               >
                 {item}
               </li>
             );
           })}
-           <div className="flex items-center border border-custom-yellow rounded p-1">
+          <div className="flex items-center border border-custom-yellow rounded p-1">
             <input
               type="text"
-              className="border-none outline-none px-2  py-1 flex-1 text-sm"
+              className="border-none outline-none px-2 py-1 flex-1 text-sm"
               placeholder="Search"
             />
           </div>
           <div className="flex gap-4 mt-4">
-         
             <FiUserCheck
               title="Profile"
               className="text-2xl cursor-pointer hover:text-custom-yellow"
+              onClick={toggleDialog}
             />
-          
+
             <IoMdHeartEmpty
               title="Wishlist"
               className="text-2xl cursor-pointer hover:text-custom-yellow"
@@ -149,6 +152,40 @@ const Navbar = () => {
               onClick={() => navigate("/cart")}
             />
           </div>
+        </div>
+      )}
+
+      {/* Profile Dialog */}
+      {dialogOpen && (
+        <div className="absolute right-0 mt-2 w-80 bg-white p-6 rounded-md shadow-lg z-20">
+          <h3 className="text-xl font-sansation font-bold mb-4">User Menu</h3>
+          <ul className="space-y-2 font-sansation font-regular">
+            {[
+              { name: "Profile", path: "/view/profile" },
+              { name: "My Orders", path: "/my-orders" },
+              { name: "My Reviews", path: "/create/review" },
+              { name: "Rewards", path: "/user/rewards" },
+              { name: "Notifications", path: "/user/notifications" },
+              { name: "Coupons", path: "/user/coupons" },
+            ].map((option) => (
+              <li
+                key={option.name}
+                className="cursor-pointer hover:text-custom-yellow"
+                onClick={() => {
+                  navigate(option.path); // Navigate to the specified route
+                  setDialogOpen(false); // Close dialog after selecting an option
+                }}
+              >
+                {option.name}
+              </li>
+            ))}
+          </ul>
+          <button
+            onClick={toggleDialog}
+            className="mt-4 w-full bg-red-500 text-white py-2 rounded hover:bg-custom-white hover:text-custom-yellow border border-custom-yellow"
+          >
+            Close
+          </button>
         </div>
       )}
     </div>

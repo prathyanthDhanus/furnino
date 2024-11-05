@@ -27,6 +27,9 @@ const PaymentSelection = lazy(()=>import("../../pages/userPages/PaymentSelection
 const MyOrders = lazy(()=>import("../../pages/userPages/MyOrders"));
 const AddReview = lazy(()=>import("../../pages/userPages/AddReview"));
 const MyOrdersDetailView = lazy(()=>import("../../pages/userPages/MyOrdersDetailView"));
+const ViewUserProfile = lazy(()=>import("../../pages/userPages/ViewUserProfile"));
+const EditUserProfile = lazy(()=>import("../../pages/userPages/EditProfile"));
+
 
 
 
@@ -195,6 +198,23 @@ export const userRouter = createBrowserRouter([
           </SuspenseWrapper>
         ),
       },
+      {
+        path: "/view/profile",
+        element: (
+          <SuspenseWrapper>
+            <ViewUserProfile/>
+          </SuspenseWrapper>
+        ),
+      },
+      {
+        path: "/edit/profile/:addreesId",
+        element: (
+          <SuspenseWrapper>
+            <EditUserProfile/>
+          </SuspenseWrapper>
+        ),
+      },
+    
     ],
   },
 ]);

@@ -1,4 +1,4 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation ,useQueryClient} from "@tanstack/react-query";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import Axios from "../axios/axiosInstance";
@@ -118,7 +118,6 @@ export const useLoginWithOtp = () => {
       const isPhoneNumber = /^\+?\d+$/.test(
         data.data.userId.replace(/\s+/g, "")
       );
-      console.log(isPhoneNumber);
       showSuccessToast(data?.message);
       if (isPhoneNumber) {
         localStorage.setItem("phoneNumber", data?.data?.userId);
@@ -313,6 +312,7 @@ export const useFetchProfile = () => {
 // =========== update user profile details ============
 
 export const useUpdateProfile = () => {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async ({ addressId }) => {
       const response = await Axios.put(`/api/user/address/:${addressId}`);
@@ -320,6 +320,7 @@ export const useUpdateProfile = () => {
     },
     onSuccess: (data) => {
       showSuccessToast(data?.message);
+      queryClient.invalidateQueries("userProfile");
     },
     onError: (error) => {
       showErrorToast(
@@ -332,13 +333,15 @@ export const useUpdateProfile = () => {
 // =========== delete user profile details ============
 
 export const useDeleteProfile = () => {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async ({ addressId }) => {
-      const response = await Axios.delete(`/api/user/address/:${addressId}`);
+      const response = await Axios.delete(`/api/user/address/${addressId}`);
       return response?.data;
     },
     onSuccess: (data) => {
       showSuccessToast(data?.message);
+      queryClient.invalidateQueries("userProfile");
     },
     onError: (error) => {
       showErrorToast(

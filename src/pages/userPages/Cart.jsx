@@ -1,21 +1,18 @@
-import React, { useState,useEffect } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import HeaderBanner from "../../components/banner/HeaderBanner";
 import headingImage from "../../assets/images/Rectangle 1.png";
 import CustomButton from "../../components/buttton/CustomButton";
 import CartViewCard from "../../components/card/CartViewCard";
-import testImage from "../../assets/images/kids-room-banner.jpg";
-import AddressCard from "../../components/card/AddressCard";
 import {
   useGetProductsFromtheCart,
   useUpdateQuantityOfAProduct,
   useDeleteProductFromCart,
   useCartTotal,
 } from "../../services/product";
-import { useFetchProfile } from "../../services/userAuth";
 import { showConfirmationToast } from "../../utils/toastNotification/toastNotifications";
 import emptyCartImage from "../../assets/images/1172061-middle.png";
-import { usePayment } from "../../services/userAuth";
+
 const Cart = () => {
   const deliveryCharge = 150;
   const navigate = useNavigate();
@@ -26,7 +23,6 @@ const Cart = () => {
     error: errorGetProductFromCart,
   } = useGetProductsFromtheCart();
 
-
   const {
     data: cartTotal,
     isSuccess: isCartTotalSuccess,
@@ -35,7 +31,7 @@ const Cart = () => {
   const { mutate: quantityUpdate } = useUpdateQuantityOfAProduct();
   const { mutate: deleteFromCart } = useDeleteProductFromCart();
 
-//  console.log(errorGetProductFromCart?.response?.status)
+  //  console.log(errorGetProductFromCart?.response?.status)
   const handleQuantityChange = (newQuantity, productId) => {
     quantityUpdate(
       { newQuantity, productId },
@@ -46,7 +42,6 @@ const Cart = () => {
       }
     );
   };
-
 
   const handleDeleteClick = (cartId) => {
     showConfirmationToast(
@@ -62,17 +57,17 @@ const Cart = () => {
             },
           }
         ),
-      "Are you sure you want to delete this item?","Delete"
+      "Are you sure you want to delete this item?",
+      "Delete"
     );
   };
 
-  
   const totalAmount = cartTotal ? cartTotal + deliveryCharge : 0;
-  
-  const handleClickProccedToCheckOut = ()=>{
-   localStorage.setItem('totalAmount',totalAmount)
-   navigate("/product/checkout");
-  }
+
+  const handleClickProccedToCheckOut = () => {
+    localStorage.setItem("totalAmount", totalAmount);
+    navigate("/product/checkout");
+  };
   return (
     <>
       <HeaderBanner
@@ -99,9 +94,6 @@ const Cart = () => {
             <div className="grid sm:grid-cols-1  md:grid-cols-1  lg:grid-cols-6  xl:grid-cols-6 gap-8 justify-items-center w-full">
               {/* Left Side - 4 columns */}
               <div className="col-span-4">
-
-              
-
                 {cart?.map((cartData) => (
                   <div className="mt-10" key={cartData?._id}>
                     <CartViewCard
@@ -120,8 +112,9 @@ const Cart = () => {
                       }
                       onDelete={() => handleDeleteClick(cartData?._id)}
                       hideCheck={false}
-                   
-                      onClick={() => navigate(`/view/product/${cartData?.productId?._id}`)}
+                      onClick={() =>
+                        navigate(`/view/product/${cartData?.productId?._id}`)
+                      }
                     />
                   </div>
                 ))}
@@ -154,7 +147,6 @@ const Cart = () => {
                   className="w-full sm:text-sm md:text:sm lg:text-base  bg-blue-400 text-custom-white hover:bg-custom-white hover:text-blue-400 hover:border-blue-400 my-5"
                   // onClick={()=>navigate(`/user/payment/selection/${totalAmount}`)}
                   onClick={handleClickProccedToCheckOut}
-                 
                 />
               </div>
             </div>

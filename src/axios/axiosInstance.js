@@ -65,7 +65,8 @@ import dayjs from "dayjs";
 import jwtDecode from "jwt-decode";
 
 const Axios = axios.create({
-  baseURL: "http://localhost:3000",
+  // baseURL: "http://localhost:3000",
+  baseURL: "https://furnino-backend.onrender.com",
   headers: {
     Accept: "application/json",
   },

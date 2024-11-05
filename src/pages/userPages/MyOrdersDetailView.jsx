@@ -53,7 +53,7 @@ const MyOrdersDetailView = () => {
 
               {/* Product Price */}
               <p className="text-lg font-semibold text-gray-700">
-                Price: ${productDetails.productId.price}
+                Price: ₹{productDetails.productId.price}
               </p>
 
               {/* Ordered Capacity */}
