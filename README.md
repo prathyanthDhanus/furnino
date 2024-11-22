@@ -1,8 +1,33 @@
-# React + Vite
+# Furnino - E-Commerce Furniture App  
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Furnino is a user-friendly e-commerce web application designed to streamline furniture shopping. It features a modern, interactive interface and robust backend, making it easy for users to explore, zoom, and purchase furniture products.  
 
-Currently, two official plugins are available:
+## Features  
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Authentication**: Secure login with JWT, Google, and OTP-based login.  
+- **Product Features**: Image zoom functionality, add-to-cart, and wishlist.  
+- **Navigation**: Responsive navbar with a collapsible menu for mobile users.  
+- **Cart Management**: Transfer products from cart to order upon payment.  
+- **Protected Routes**: Private route implementation for enhanced security.  
+- **Filtering**: Advanced filtering by product ID and categories.  
+- **Interactive UI**: Built with React.js and Tailwind CSS for a seamless user experience.  
+
+## Tech Stack  
+
+- **Frontend**: React.js, Tailwind CSS  
+- **Backend**: Node.js, Express.js, MongoDB  
+- **State Management**: TanStack Query  
+- **Additional Tools**:  
+- **React-Medium-Image-Zoom**: For product image zooming.  
+
+## Installation  
+
+1. Clone the repository:  
+   ```bash
+   git clone https://github.com/prathyanthDhanus/furnino.git
+
+   # In the project root directory:
+npm install  
+
+# Start the backend server:
+npm run server  
